@@ -16,6 +16,8 @@ from six import string_types
 from .exceptions import StormWentAwayError
 from .serializers.msgpack_serializer import MsgpackSerializer
 from .serializers.json_serializer import JSONSerializer
+from .serializers.json_cbor_serializer import JSONCBORSerializer
+
 
 # Support for Storm Log levels as per STORM-414
 _STORM_LOG_TRACE = 0
@@ -37,7 +39,7 @@ _PYTHON_LOG_LEVELS = {'critical': logging.CRITICAL,
                       'info': logging.INFO,
                       'debug': logging.DEBUG,
                       'trace': logging.DEBUG}
-_SERIALIZERS = {"json": JSONSerializer, "msgpack": MsgpackSerializer}
+_SERIALIZERS = {"json": JSONSerializer, "msgpack": MsgpackSerializer, "json-cbor": JSONCBORSerializer}
 
 
 log = logging.getLogger(__name__)
