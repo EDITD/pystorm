@@ -11,6 +11,7 @@ import logging
 
 import cbor
 import simplejson as json
+import six
 from six import PY2
 
 from ..exceptions import StormWentAwayError
@@ -91,7 +92,7 @@ class JSONCBORSerializer(Serializer):
             wrapped_message = json.loads(msg)
 
             # CBOR load any nested tuple string
-            if 'tuple' in wrapped_message:
+            if 'tuple' in wrapped_message and isinstance(wrapped_message['tuple'], six.string_types):
                 wrapped_message['tuple'] = cbor.loads(wrapped_message.pop('tuple'))
 
             return wrapped_message
