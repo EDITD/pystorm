@@ -9,6 +9,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 import io
 import logging
 
+from base64 import b64decode, b64encode
+
 import cbor
 import simplejson as json
 import six
@@ -93,7 +95,10 @@ class JSONCBORSerializer(Serializer):
 
             # CBOR load any nested tuple string
             if 'tuple' in wrapped_message and isinstance(wrapped_message['tuple'], six.string_types):
-                wrapped_message['tuple'] = cbor.loads(wrapped_message.pop('tuple'))
+                tup = b64decode(wrapped_message['tuple'])
+                tup = cbor.loads(tup)
+
+                wrapped_message['tuple'] = tup
 
             return wrapped_message
 
@@ -106,7 +111,12 @@ class JSONCBORSerializer(Serializer):
 
         # CBOR serialise any nested tuple
         if 'tuple' in msg_dict:
-            msg_dict['tuple'] = cbor.dumps(msg_dict.pop('tuple'))
+            msg_dict = msg_dict.copy()
+
+            tup = cbor.dumps(msg_dict['tuple'])
+            tup = b64encode(tup)
+
+            msg_dict['tuple'] = tup
 
         serialized = json.dumps(msg_dict, namedtuple_as_object=False)
         if PY2:
