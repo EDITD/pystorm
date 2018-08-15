@@ -46,7 +46,7 @@ original_stdout = sys.stdout
 
 
 class FakeStdout(object):
-    def write(*args, **kwargs):
+    def write(self, *args, **kwargs):
         log.info('WRITING TO STODUT: args={0}, kwargs={1}'.format(args, kwargs))
         original_stdout.write(*args, **kwargs)
 
