@@ -47,8 +47,7 @@ original_stdout = sys.stdout
 
 class FakeStdout(object):
     def write(self, *args, **kwargs):
-        log.info('WOULD WRITING TO STODUT: args={0}, kwargs={1}'.format(args, kwargs))
-        # original_stdout.write(*args, **kwargs)
+        log.info('WHY AM I WRITING TO STODUT?: args={0}, kwargs={1}'.format(args, kwargs))
 
     def __getattr__(self, key):
         return getattr(original_stdout, key)

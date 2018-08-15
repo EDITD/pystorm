@@ -29,14 +29,12 @@ class Serializer(object):
         """Serialize a message dictionary and write it to the output stream."""
         with self._writer_lock:
             serialised = self.serialize_dict(msg_dict)
-            log.info('SENDING DICT={0}, SERIALISED={1}'.format(msg_dict, serialised))
 
             try:
                 self.output_stream.flush()
                 self.output_stream.write(serialised)
                 self.output_stream.flush()
             except IOError as e:
-                log.info('IO ERROR RRRRR: {0}'.format(e))
                 raise StormWentAwayError()
             except:
                 log.exception('Failed to send message: %r', msg_dict)
