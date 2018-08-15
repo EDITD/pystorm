@@ -497,7 +497,7 @@ class Component(object):
                     self._handle_run_exception(e)
                 except StormWentAwayError:
                     log.error(log_msg, exc_info=exc_info)
-                    log.info('Exiting because parent Storm process went away.')
+                    log.info('Exiting because parent Storm process went awayyyyyy.')
                     self._exit(2)
                 except:
                     log.error(log_msg, exc_info=exc_info)

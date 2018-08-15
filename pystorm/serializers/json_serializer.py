@@ -71,6 +71,7 @@ class JSONSerializer(Serializer):
             if line == 'end\n':
                 break
             elif line == '':
+                log.critical('ARG STORM BUGGERED OFF EMPTY LINE')
                 raise StormWentAwayError()
             elif line == '\n':
                 num_blank_lines += 1

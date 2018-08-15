@@ -35,7 +35,8 @@ class Serializer(object):
                 self.output_stream.flush()
                 self.output_stream.write(serialised)
                 self.output_stream.flush()
-            except IOError:
+            except IOError as e:
+                log.info('IO ERROR RRRRR: {0}'.format(e))
                 raise StormWentAwayError()
             except:
                 log.exception('Failed to send message: %r', msg_dict)
