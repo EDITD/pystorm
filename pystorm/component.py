@@ -42,15 +42,19 @@ _SERIALIZERS = {"json": JSONSerializer, "msgpack": MsgpackSerializer}
 
 log = logging.getLogger(__name__)
 
-old_stdout_write = sys.stdout.write
+original_stdout = sys.stdout
 
 
-def write_to_stdout(*args, **kwargs):
-    log.info('WRITING TO STODUT: args={0}, kwargs={1}'.format(args, kwargs))
-    old_stdout_write(*args, **kwargs)
+class FakeStdout(object):
+    def write(*args, **kwargs):
+        log.info('WRITING TO STODUT: args={0}, kwargs={1}'.format(args, kwargs))
+        original_stdout.write(*args, **kwargs)
+
+    def __getattr__(self, key):
+        return getattr(original_stdout, key)
 
 
-sys.stdout.write = write_to_stdout
+sys.stdout = FakeStdout()
 
 
 def remote_pdb_handler(signum, frame):
