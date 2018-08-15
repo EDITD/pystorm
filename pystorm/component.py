@@ -42,6 +42,16 @@ _SERIALIZERS = {"json": JSONSerializer, "msgpack": MsgpackSerializer}
 
 log = logging.getLogger(__name__)
 
+old_stdout_write = sys.stdout.write
+
+
+def write_to_stdout(*args, **kwargs):
+    log.info('WRITING TO STODUT: args={0}, kwargs={1}'.format(args, kwargs))
+    old_stdout_write(*args, **kwargs)
+
+
+sys.stdout.write = write_to_stdout
+
 
 def remote_pdb_handler(signum, frame):
     """ Handler to drop us into a remote debugger upon receiving SIGUSR1 """
